@@ -15,6 +15,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as WishlistIndexRouteImport } from './routes/wishlist/index'
 import { Route as ProfileIndexRouteImport } from './routes/profile/index'
 import { Route as ProductsIndexRouteImport } from './routes/products/index'
+import { Route as OrderIndexRouteImport } from './routes/order/index'
 import { Route as ProfileOrdersRouteImport } from './routes/profile/orders'
 import { Route as ProfileFaqRouteImport } from './routes/profile/faq'
 import { Route as ProfileAddressRouteImport } from './routes/profile/address'
@@ -51,6 +52,11 @@ const ProductsIndexRoute = ProductsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ProductsRouteRoute,
 } as any)
+const OrderIndexRoute = OrderIndexRouteImport.update({
+  id: '/order/',
+  path: '/order/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProfileOrdersRoute = ProfileOrdersRouteImport.update({
   id: '/orders',
   path: '/orders',
@@ -86,6 +92,7 @@ export interface FileRoutesByFullPath {
   '/profile/address': typeof ProfileAddressRoute
   '/profile/faq': typeof ProfileFaqRoute
   '/profile/orders': typeof ProfileOrdersRoute
+  '/order': typeof OrderIndexRoute
   '/products/': typeof ProductsIndexRoute
   '/profile/': typeof ProfileIndexRoute
   '/wishlist': typeof WishlistIndexRoute
@@ -97,6 +104,7 @@ export interface FileRoutesByTo {
   '/profile/address': typeof ProfileAddressRoute
   '/profile/faq': typeof ProfileFaqRoute
   '/profile/orders': typeof ProfileOrdersRoute
+  '/order': typeof OrderIndexRoute
   '/products': typeof ProductsIndexRoute
   '/profile': typeof ProfileIndexRoute
   '/wishlist': typeof WishlistIndexRoute
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/profile/address': typeof ProfileAddressRoute
   '/profile/faq': typeof ProfileFaqRoute
   '/profile/orders': typeof ProfileOrdersRoute
+  '/order/': typeof OrderIndexRoute
   '/products/': typeof ProductsIndexRoute
   '/profile/': typeof ProfileIndexRoute
   '/wishlist/': typeof WishlistIndexRoute
@@ -126,6 +135,7 @@ export interface FileRouteTypes {
     | '/profile/address'
     | '/profile/faq'
     | '/profile/orders'
+    | '/order'
     | '/products/'
     | '/profile/'
     | '/wishlist'
@@ -137,6 +147,7 @@ export interface FileRouteTypes {
     | '/profile/address'
     | '/profile/faq'
     | '/profile/orders'
+    | '/order'
     | '/products'
     | '/profile'
     | '/wishlist'
@@ -150,6 +161,7 @@ export interface FileRouteTypes {
     | '/profile/address'
     | '/profile/faq'
     | '/profile/orders'
+    | '/order/'
     | '/products/'
     | '/profile/'
     | '/wishlist/'
@@ -160,6 +172,7 @@ export interface RootRouteChildren {
   ProductsRouteRoute: typeof ProductsRouteRouteWithChildren
   ProfileRouteRoute: typeof ProfileRouteRouteWithChildren
   OrderIdRoute: typeof OrderIdRoute
+  OrderIndexRoute: typeof OrderIndexRoute
   WishlistIndexRoute: typeof WishlistIndexRoute
 }
 
@@ -206,6 +219,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/products/'
       preLoaderRoute: typeof ProductsIndexRouteImport
       parentRoute: typeof ProductsRouteRoute
+    }
+    '/order/': {
+      id: '/order/'
+      path: '/order'
+      fullPath: '/order'
+      preLoaderRoute: typeof OrderIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/profile/orders': {
       id: '/profile/orders'
@@ -282,6 +302,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProductsRouteRoute: ProductsRouteRouteWithChildren,
   ProfileRouteRoute: ProfileRouteRouteWithChildren,
   OrderIdRoute: OrderIdRoute,
+  OrderIndexRoute: OrderIndexRoute,
   WishlistIndexRoute: WishlistIndexRoute,
 }
 export const routeTree = rootRouteImport

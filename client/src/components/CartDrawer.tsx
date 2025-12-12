@@ -796,28 +796,12 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                 `Place Order (₹${totals.totalPrice})`
               )}
             </button>
-            {/* <button
-              className="w-full h-[50px] bg-primary hover:bg-primary text-center  justify-center text-white py-3 rounded font-medium text-sm transition-colors flex items-center  px-4"
-              onClick={handlePlaceOrder}
-            >
-              <span className="font-semibold flex items-center gap-2">
-                {isPending ? (
-                  <div className="flex items-center">
-                    <Loader2 className="w-8 h-8 animate-spin text-wh" />
-                  </div>
-                ) : (
-                  <span className="w-full h-[50px] bg-primary hover:bg-primary text-center justify-center text-white py-3 rounded font-medium text-sm transition-colors flex items-center px-4">
-                    Place Order (₹{totals.totalPrice.toFixed(0)})
-                  </span>
-                )}
-              </span>
-            </button> */}
           </div>
         </div>
       </div>
 
       {/* Mobile Full Screen */}
-      <div
+      {/* <div
         className={`
           fixed inset-0 z-50 bg-white flex flex-col
           transition-opacity duration-300 md:hidden
@@ -904,15 +888,15 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
             </div>
           </>
         )}
-      </div>
+      </div> */}
 
       {/* Mobile Backdrop */}
-      {isOpen && (
+      {/* {isOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
           onClick={onClose}
         />
-      )}
+      )} */}
 
       {/* Address Drawer */}
       <AddressDrawer

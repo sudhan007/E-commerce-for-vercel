@@ -28,8 +28,7 @@ export default function Navbar() {
   const navigate = useNavigate()
   const location = useLocation()
   const session = useSessionContext()
-  const cart = useCartContext()
-  const { isCartOpen, setCartOpen } = cart
+
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
 
   const { data: count } = useQuery({
@@ -79,7 +78,10 @@ export default function Navbar() {
   }
 
   const handleBasket = () => {
-    setCartOpen(!isCartOpen)
+    navigate({
+      to: '/order',
+      search: { checkOutType: 'cart' },
+    })
   }
 
   const currentCategory = getCurrentCategory()
