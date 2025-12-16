@@ -15,6 +15,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as WishlistIndexRouteImport } from './routes/wishlist/index'
 import { Route as ProfileIndexRouteImport } from './routes/profile/index'
 import { Route as ProductsIndexRouteImport } from './routes/products/index'
+import { Route as PaymentVerificationIndexRouteImport } from './routes/payment-verification/index'
 import { Route as OrderIndexRouteImport } from './routes/order/index'
 import { Route as ProfileOrdersRouteImport } from './routes/profile/orders'
 import { Route as ProfileFaqRouteImport } from './routes/profile/faq'
@@ -52,6 +53,12 @@ const ProductsIndexRoute = ProductsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ProductsRouteRoute,
 } as any)
+const PaymentVerificationIndexRoute =
+  PaymentVerificationIndexRouteImport.update({
+    id: '/payment-verification/',
+    path: '/payment-verification/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const OrderIndexRoute = OrderIndexRouteImport.update({
   id: '/order/',
   path: '/order/',
@@ -93,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/profile/faq': typeof ProfileFaqRoute
   '/profile/orders': typeof ProfileOrdersRoute
   '/order': typeof OrderIndexRoute
+  '/payment-verification': typeof PaymentVerificationIndexRoute
   '/products/': typeof ProductsIndexRoute
   '/profile/': typeof ProfileIndexRoute
   '/wishlist': typeof WishlistIndexRoute
@@ -105,6 +113,7 @@ export interface FileRoutesByTo {
   '/profile/faq': typeof ProfileFaqRoute
   '/profile/orders': typeof ProfileOrdersRoute
   '/order': typeof OrderIndexRoute
+  '/payment-verification': typeof PaymentVerificationIndexRoute
   '/products': typeof ProductsIndexRoute
   '/profile': typeof ProfileIndexRoute
   '/wishlist': typeof WishlistIndexRoute
@@ -120,6 +129,7 @@ export interface FileRoutesById {
   '/profile/faq': typeof ProfileFaqRoute
   '/profile/orders': typeof ProfileOrdersRoute
   '/order/': typeof OrderIndexRoute
+  '/payment-verification/': typeof PaymentVerificationIndexRoute
   '/products/': typeof ProductsIndexRoute
   '/profile/': typeof ProfileIndexRoute
   '/wishlist/': typeof WishlistIndexRoute
@@ -136,6 +146,7 @@ export interface FileRouteTypes {
     | '/profile/faq'
     | '/profile/orders'
     | '/order'
+    | '/payment-verification'
     | '/products/'
     | '/profile/'
     | '/wishlist'
@@ -148,6 +159,7 @@ export interface FileRouteTypes {
     | '/profile/faq'
     | '/profile/orders'
     | '/order'
+    | '/payment-verification'
     | '/products'
     | '/profile'
     | '/wishlist'
@@ -162,6 +174,7 @@ export interface FileRouteTypes {
     | '/profile/faq'
     | '/profile/orders'
     | '/order/'
+    | '/payment-verification/'
     | '/products/'
     | '/profile/'
     | '/wishlist/'
@@ -173,6 +186,7 @@ export interface RootRouteChildren {
   ProfileRouteRoute: typeof ProfileRouteRouteWithChildren
   OrderIdRoute: typeof OrderIdRoute
   OrderIndexRoute: typeof OrderIndexRoute
+  PaymentVerificationIndexRoute: typeof PaymentVerificationIndexRoute
   WishlistIndexRoute: typeof WishlistIndexRoute
 }
 
@@ -219,6 +233,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/products/'
       preLoaderRoute: typeof ProductsIndexRouteImport
       parentRoute: typeof ProductsRouteRoute
+    }
+    '/payment-verification/': {
+      id: '/payment-verification/'
+      path: '/payment-verification'
+      fullPath: '/payment-verification'
+      preLoaderRoute: typeof PaymentVerificationIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/order/': {
       id: '/order/'
@@ -303,6 +324,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProfileRouteRoute: ProfileRouteRouteWithChildren,
   OrderIdRoute: OrderIdRoute,
   OrderIndexRoute: OrderIndexRoute,
+  PaymentVerificationIndexRoute: PaymentVerificationIndexRoute,
   WishlistIndexRoute: WishlistIndexRoute,
 }
 export const routeTree = rootRouteImport

@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import React, { useEffect, useState, useRef, useCallback, useMemo } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
@@ -80,6 +80,7 @@ function RouteComponent() {
   const [shake, setShake] = useState(false)
   const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
   const autoSlideRef = useRef<NodeJS.Timeout | null>(null)
+  const navigate = useNavigate()
 
   // Touch swipe refs
   const touchStartX = useRef<number | null>(null)
@@ -111,6 +112,7 @@ function RouteComponent() {
         queryKey: ['product-details', productId],
       })
       queryClient.invalidateQueries({ queryKey: ['cart'] })
+      queryClient.invalidateQueries({ queryKey: ['cart-count'] })
       toast.success('Product added to cart')
     },
     onError: (err: any) => {
@@ -403,7 +405,10 @@ function RouteComponent() {
 
   const handleGoToBasket = () => {
     if (!checkAuthentication()) return
-    setCartOpen(true)
+    navigate({
+      to: '/order',
+      search: { checkOutType: 'cart' },
+    })
   }
   const handleBuyNowClick = () => {
     if (!checkAuthentication()) return

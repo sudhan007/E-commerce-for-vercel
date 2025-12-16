@@ -16,6 +16,7 @@ import {
   type ServiceabilityResult,
 } from '@/lib/checkServiceability'
 import AddressDrawer from '@/components/AddressDrawer'
+import { useNavigate } from '@tanstack/react-router'
 
 interface availableSizes {
   size: string
@@ -64,6 +65,7 @@ interface Address {
   pincode: string
 }
 const CartCheckOut = () => {
+  const navigate = useNavigate()
   const [cartItems, setCartItems] = useState<CartItem[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -261,6 +263,7 @@ const CartCheckOut = () => {
       const updated = cartItems.filter((i) => i._id !== id)
       setCartItems(updated)
       calculateTotals(updated)
+      queryClient.invalidateQueries({ queryKey: ['cart-count'] })
       toast.success('Item removed')
     } catch (err: any) {
       toast.error(err.response?.data?.message || 'Failed to remove item')
@@ -441,8 +444,10 @@ const CartCheckOut = () => {
           Looks like you haven't added anything to your cart yet.
         </p>
         <button
-          // onClick={() => /* Navigate to shop or homepage */}
-          className="mt-6 px-6 py-3 bg-primary text-white font-medium rounded-md hover:bg-primary/90 transition"
+          onClick={() => {
+            navigate({ to: '/' })
+          }}
+          className="mt-6 px-6 py-3 bg-primary cursor-pointer  text-white font-medium rounded-md hover:bg-primary/90 transition"
         >
           Continue Shopping
         </button>

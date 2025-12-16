@@ -8,6 +8,7 @@ import { useSessionContext } from '@/context/SessionContext'
 import LoginModal from './Loginpage'
 import QuickViewSkeleton from './skeletons/QuickViewSkeleton'
 import { useCartContext } from '@/context/CartContext'
+import { useNavigate } from '@tanstack/react-router'
 
 interface PriceDetails {
   actualPrice: number
@@ -66,6 +67,7 @@ const QuickViewModal: React.FC<QuickViewModalProps> = ({
   const [showLogin, setShowLogin] = useState(false)
   const cart = useCartContext()
   const { setCartOpen } = cart
+  const navigate = useNavigate()
   const [localQuantity, setLocalQuantity] = useState(1)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const session = useSessionContext()
@@ -99,7 +101,7 @@ const QuickViewModal: React.FC<QuickViewModalProps> = ({
         queryKey: ['quickview-product', productId],
       })
       queryClient.invalidateQueries({ queryKey: ['cart'] })
-
+      queryClient.invalidateQueries({ queryKey: ['cart-count'] })
       toast.success('Product added to cart')
     },
     onError: (err: any) => {
@@ -378,7 +380,10 @@ const QuickViewModal: React.FC<QuickViewModalProps> = ({
 
   const handleGoToBasket = () => {
     if (!checkAuthentication()) return
-    setCartOpen(true)
+    navigate({
+      to: '/order',
+      search: { checkOutType: 'cart' },
+    })
     onClose()
   }
 
@@ -633,7 +638,7 @@ const QuickViewModal: React.FC<QuickViewModalProps> = ({
               )}
             </div>
 
-            <div className="border-t border-gray-200 mt-8 pt-6 text-xs">
+            {/* <div className="border-t border-gray-200 mt-8 pt-6 text-xs">
               <div className="flex items-center justify-between mb-2">
                 <span className="font-medium text-[14px] text-[#1F1F1F] font-sans md:text-[18px] uppercase">
                   Select Delivery Address
@@ -654,7 +659,7 @@ const QuickViewModal: React.FC<QuickViewModalProps> = ({
                   your location <ChevronDown className="" />
                 </span>
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
