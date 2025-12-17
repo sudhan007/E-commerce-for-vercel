@@ -50,6 +50,7 @@ interface ProductResponse {
     pattern?: string
     sizeChartImage?: string
     isFavourite: boolean
+    gst: number
   }
   variants: Variant[]
 }
@@ -411,8 +412,13 @@ function RouteComponent() {
     })
   }
   const handleBuyNowClick = () => {
+    if (!selectedSize) {
+      setShake(true)
+      setTimeout(() => setShake(false), 1000)
+      toast.error('Please select a size')
+      return
+    }
     if (!checkAuthentication()) return
-
     const productToBuy: QuickBuyProduct = {
       productId: product?._id ?? '',
       productName: product?.productName ?? '',
@@ -424,10 +430,13 @@ function RouteComponent() {
       strikeAmount: selectedVariant.priceDetails?.strikeAmount,
       image: selectedVariant.images[0] || '/placeholder.jpg',
       quantity: localQuantity,
+      gst: product?.gst ?? 0,
     }
-
-    setQuickBuyProduct(productToBuy)
-    setQuickBuyOpen(true)
+    navigate({
+      to: '/order',
+      search: { checkOutType: 'quickCart' },
+      state: { product: productToBuy } as { product: QuickBuyProduct },
+    })
   }
 
   const handleFavouriteClick = () => {

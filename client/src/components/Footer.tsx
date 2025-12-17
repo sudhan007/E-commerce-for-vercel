@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="w-[90%] mx-auto font-serif mt-8 py-3 lg:mt-20 lg:py-20">
+    <footer className="w-[90%] mx-auto font-serif mt-8 py-3 lg:py-20">
       <div className="grid grid-cols-1 lg:grid-cols-5">
         {/* Brand Section */}
         <div className="lg:col-span-2 lg:pr-20">
@@ -135,18 +135,24 @@ export default function Footer() {
               </a>
             </li>
             <li>
-              <a href="#" className="text-[14px] font-light">
-                Terms & Conditions
+              <a
+                href="/Return_RefundPolicy.html"
+                className="text-[14px] font-light"
+              >
+                Return & Refund Policy
               </a>
             </li>
             <li>
-              <a href="#" className="text-[14px] font-light">
-                Cart
+              <a
+                href="/Shipping_DeliveryPolicy.html"
+                className="text-[14px] font-light"
+              >
+                Shipping & Delivery Policy
               </a>
             </li>
             <li>
-              <a href="#" className="text-[14px] font-light">
-                Privacy
+              <a href="/PrivacyPolicy.html" className="text-[14px] font-light">
+                Privacy Policy
               </a>
             </li>
           </ul>

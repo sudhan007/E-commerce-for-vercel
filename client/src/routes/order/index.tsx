@@ -1,4 +1,9 @@
-import { createFileRoute, useSearch, useNavigate } from '@tanstack/react-router'
+import {
+  createFileRoute,
+  useSearch,
+  useNavigate,
+  useLocation,
+} from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import CartCheckOut from '@/components/checkouts/CartCheckOut'
 import QuickCheckOut from '@/components/checkouts/QuickCheckOut'
@@ -13,7 +18,9 @@ export const Route = createFileRoute('/order/')({
 function RouteComponent() {
   const search = useSearch({ from: '/order/' })
   const navigate = useNavigate()
-
+  const location = useLocation()
+  const product = location.state?.product
+  console.log(product, 'product')
   const { checkOutType } = search
 
   if (checkOutType === 'cart') {
@@ -21,7 +28,7 @@ function RouteComponent() {
   }
 
   if (checkOutType === 'quickCart') {
-    return <QuickCheckOut />
+    return <QuickCheckOut product={product} />
   }
 
   return (

@@ -6,6 +6,7 @@ interface OrderTabsProps {
 export function OrderTabs({ activeTab, onTabChange }: OrderTabsProps) {
   const tabs = [
     { id: 'PENDING', label: 'Pending' },
+    { id: 'CONFIRMED', label: 'Confirmed' },
     { id: 'DELIVERED', label: 'Delivered' },
     { id: 'CANCELLED', label: 'Cancelled' },
   ]

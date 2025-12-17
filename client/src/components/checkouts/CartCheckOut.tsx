@@ -218,7 +218,7 @@ const CartCheckOut = () => {
         ? deliveryOptions?.cod?.total_amount || 0
         : deliveryOptions?.prepaid?.total_amount || 0
 
-    const totalPrice = subtotal + deliveryCharge
+    const totalPrice = subtotal + tax + deliveryCharge
 
     setTotals({ subtotal, tax, totalPrice, deliveryCharge })
   }
@@ -280,6 +280,7 @@ const CartCheckOut = () => {
         deliveryCharge: data.deliveryCharge,
         totalAmount: data.totalAmount,
         userId: session?._id,
+        checkoutType: 'cart',
       })
     },
     onSuccess: (response: any) => {
@@ -597,7 +598,7 @@ const CartCheckOut = () => {
                   </h3>
                   <button
                     onClick={() => setAddressDrawerOpen(true)}
-                    className="text-primary font-medium text-sm"
+                    className="text-primary cursor-pointer  font-medium text-sm"
                   >
                     {address ? 'Change' : 'Add Address'}
                   </button>
@@ -758,6 +759,13 @@ const CartCheckOut = () => {
                     <span className="text-gray-600">Item Total</span>
                     <span className="font-medium text-foreground">
                       ₹ {totals.subtotal.toFixed(2)}
+                    </span>
+                  </div>
+
+                  <div className="flex justify-between text-xs sm:text-sm">
+                    <span className="text-gray-600">Tax</span>
+                    <span className="font-medium text-foreground">
+                      ₹ {totals.tax.toFixed(2)}
                     </span>
                   </div>
 

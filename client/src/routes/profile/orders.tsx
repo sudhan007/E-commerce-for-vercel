@@ -4,31 +4,31 @@ import { OrderTabs } from '@/components/profile/order/tabs'
 import { useSessionContext } from '@/context/SessionContext'
 import { _axios } from '@/lib/axios'
 import { useQuery } from '@tanstack/react-query'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 
 export const Route = createFileRoute('/profile/orders')({
   component: RouteComponent,
 })
-
-function RouteComponent() {
-  interface Order {
-    _id: string
-    orderId: string
-    createdAt: string
-    estimatedDeliveryTime?: string
-    addressCopy: {
-      flatorHouseno?: string
-      area?: string
-      landmark?: string
-    }
-    orderItems: Array<{
-      productId: { _id: string }
-      variantId: { _id: string; images?: [] }
-    }>
-    totalAmount: number
-    orderStatus: 'PENDING' | 'DELIVERED' | 'CANCELLED'
+interface Order {
+  _id: string
+  orderId: string
+  createdAt: string
+  estimatedDeliveryTime?: string
+  addressCopy: {
+    flatorHouseno?: string
+    area?: string
+    landmark?: string
   }
+  orderItems: Array<{
+    productId: { _id: string }
+    variantId: { _id: string; images?: [] }
+  }>
+  totalAmount: number
+  orderStatus: 'PENDING' | 'DELIVERED' | 'CANCELLED'
+}
+function RouteComponent() {
+  const navigate = useNavigate()
 
   const [activeTab, setActiveTab] = useState('PENDING')
   const session = useSessionContext()
@@ -72,7 +72,11 @@ function RouteComponent() {
               }))}
               orderedAmount={order.totalAmount}
               status={order.orderStatus.toLowerCase() as any}
-              onTrackOrder={() => console.log('Track order:', order._id)}
+              onTrackOrder={() => {
+                navigate({
+                  to: `/order/${order._id}`,
+                })
+              }}
               onReorder={() => console.log('Reorder:', order._id)}
               onViewOrder={() => console.log('View order:', order._id)}
             />

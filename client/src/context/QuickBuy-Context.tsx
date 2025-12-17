@@ -14,6 +14,7 @@ export type QuickBuyProduct = {
   strikeAmount?: number
   image: string
   quantity: number
+  gst: number
 }
 
 type QuickBuyContextType = {

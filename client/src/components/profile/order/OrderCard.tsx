@@ -66,7 +66,7 @@ export function OrderCard({
             </p>
             <Button
               onClick={onTrackOrder}
-              className="bg-[#0E3051] mt-2 text-[14px] hover:bg-[#0a2442] text-white rounded-lg font-normal"
+              className="bg-[#0E3051] cursor-pointer  mt-2 text-[14px] hover:bg-[#0a2442] text-white rounded-lg font-normal"
             >
               Track Order
             </Button>
@@ -112,7 +112,7 @@ export function OrderCard({
           </p>
           <button
             onClick={onTrackOrder}
-            className="bg-primary  p-1.5 text-[12px]  md:text-[14px] hover:bg-[#0a2442] text-white rounded-lg font-normal"
+            className="bg-primary cursor-pointer   p-1.5 text-[12px]  md:text-[14px] hover:bg-[#0a2442] text-white rounded-lg font-normal"
           >
             Track Order
           </button>

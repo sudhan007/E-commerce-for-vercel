@@ -91,80 +91,46 @@
 //     </div>
 //   )
 // }
-import React from 'react'
 
+// OrderReceipt.tsx
 interface Product {
-  id: number
-  name: string
-  weight: string
-  price: number
-  quantity: number
-  image: string
-}
-
-interface OrderData {
-  orderId: string
-  shipTo: string
-  receiver: string
-  phone: string
-  products: Product[]
-  itemTotal: number
-  deliveryCharge: number
-  totalAmount: number
-  paymentMode: string
-  transactionId: string
-}
-
-export default function OrderReceipt() {
-  const orderData: OrderData = {
-    orderId: '#79785237657883',
-    shipTo: '12/7A Gandhi street, Vadasery, Nagercoil, Pin - 695216',
-    receiver: 'Sushmitha',
-    phone: '8368559846',
-    products: [
-      {
-        id: 1,
-        name: 'XOLDAA Strawberry Fruit Seeds Seed (190 Per Packet)',
-        weight: '250 g',
-        price: 200,
-        quantity: 2,
-        image:
-          'https://images.unsplash.com/photo-1464965911861-746a04b4bca6?w=200&h=200&fit=crop',
-      },
-      {
-        id: 2,
-        name: 'XOLDAA Strawberry Fruit Seeds Seed (190 Per Packet)',
-        weight: '250 g',
-        price: 200,
-        quantity: 2,
-        image:
-          'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=200&h=200&fit=crop',
-      },
-      {
-        id: 3,
-        name: 'XOLDAA Strawberry Fruit Seeds Seed (190 Per Packet)',
-        weight: '250 g',
-        price: 200,
-        quantity: 2,
-        image:
-          'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=200&h=200&fit=crop',
-      },
-      {
-        id: 4,
-        name: 'XOLDAA Strawberry Fruit Seeds Seed (190 Per Packet)',
-        weight: '250 g',
-        price: 200,
-        quantity: 2,
-        image:
-          'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=200&h=200&fit=crop',
-      },
-    ],
-    itemTotal: 1400,
-    deliveryCharge: 100,
-    totalAmount: 1500,
-    paymentMode: 'Gpay',
-    transactionId: '#T4y389op',
+  productId: {
+    _id: string
+    productName: string
   }
+  variantId: {
+    _id: string
+    priceDetails: {
+      price: number
+      strikeAmount?: number
+    }
+    images: string[]
+  }
+  quantity: number
+  priceAtPurchase: number
+  _id: string
+}
+interface OrderReceiptProps {
+  order: {
+    orderId: string
+    orderItems: Product[]
+    totalAmount: number
+    productsTotalAmount: number
+    taxAmount: number
+    deliveryCharge: number
+    paymentMethod: string
+    addressCopy: {
+      receiverName: string
+      reciverMobile: string
+      addressType: string
+      flatorHouseno: string
+      area: string
+      landmark: string
+    }
+  }
+}
+export default function OrderReceipt({ order }: OrderReceiptProps) {
+  const fullAddress = `${order.addressCopy.flatorHouseno}, ${order.addressCopy.area}, ${order.addressCopy.landmark}`
 
   return (
     <div className=" bg-white mt-4 rounded-lg shadow-md">
@@ -173,12 +139,12 @@ export default function OrderReceipt() {
         <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-2">
           <div>
             <span className="text-gray-600 text-sm">Ship To: </span>
-            <span className="text-gray-900 text-sm">{orderData.shipTo}</span>
+            <span className="text-gray-900 text-sm">{fullAddress}</span>
           </div>
           <div className="text-right">
             <span className="text-gray-600 text-sm">Order ID: </span>
             <span className="text-gray-900 text-sm font-medium">
-              {orderData.orderId}
+              {order.orderId}
             </span>
           </div>
         </div>
@@ -186,13 +152,14 @@ export default function OrderReceipt() {
           <div>
             <span className="text-gray-600 text-sm">Receiver Detail: </span>
             <span className="text-gray-900 text-sm">
-              {orderData.receiver}, {orderData.phone}
+              {order.addressCopy.receiverName},{' '}
+              {order.addressCopy.reciverMobile}
             </span>
           </div>
           <div className="text-right">
             <span className="text-gray-600 text-sm">Total Amount: </span>
             <span className="text-gray-900 text-xl font-bold">
-              ₹{orderData.totalAmount.toLocaleString()}
+              ₹{order?.totalAmount?.toFixed(2)}
             </span>
           </div>
         </div>
@@ -200,85 +167,96 @@ export default function OrderReceipt() {
 
       {/* Products Section */}
       <div className="p-4 md:p-6">
-        {orderData.products.map((product, index) => (
-          <div key={product.id}>
-            <div className="flex items-start gap-4 py-4">
-              {/* Product Image */}
-              <div className="flex-shrink-0">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-16 h-16 md:w-20 md:h-20 object-cover rounded"
-                />
-              </div>
-
-              {/* Product Details */}
-              <div className="flex-grow min-w-0">
-                <h3 className="text-sm md:text-base text-gray-900 font-medium mb-1">
-                  {product.name}
-                </h3>
-                <p className="text-sm text-gray-600">{product.weight}</p>
-              </div>
-
-              {/* Price Details */}
-              <div className="flex-shrink-0 text-right">
-                <div className="text-sm text-gray-600 mb-1">
-                  ₹{product.price}*{product.quantity}
-                </div>
-                <div className="text-base md:text-lg font-semibold text-gray-900">
-                  ₹{product.price * product.quantity}
-                </div>
-              </div>
+        {order.orderItems.map((item) => (
+          <div
+            key={item._id}
+            className="flex gap-4 pb-6 border-b border-gray-100 last:border-0"
+          >
+            <div className="flex-shrink-0">
+              <img
+                src={item.variantId.images[0] || '/placeholder.svg'}
+                alt="Product"
+                width={80}
+                height={80}
+                className="rounded-md object-cover w-16 h-16 sm:w-20 sm:h-20"
+              />
             </div>
-            {index < orderData.products.length - 1 && (
-              <hr className="border-gray-200" />
-            )}
+            <div className="flex-1 min-w-0">
+              <h3 className="text-sm sm:text-base font-medium text-gray-900 leading-snug mb-2">
+                {item.productId.productName}
+              </h3>
+            </div>
+            <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2 sm:gap-8 flex-shrink-0">
+              <span className="text-sm text-gray-600 whitespace-nowrap">
+                ₹ {item.priceAtPurchase}*{item.quantity}
+              </span>
+              <span className="text-base font-semibold text-gray-900 whitespace-nowrap">
+                ₹ {(item.priceAtPurchase * item.quantity).toFixed(2)}
+              </span>
+            </div>
           </div>
         ))}
       </div>
 
       {/* Bill Summary Section */}
-      {/* <div className="px-4 md:px-6 pb-6">
-        <h2 className="text-lg font-bold text-gray-900 mb-4">Bill Summary</h2>
 
-        <div className="flex flex-col sm:flex-row sm:justify-between gap-4 mb-4">
-          <div className="flex gap-8">
-            <div>
-              <span className="text-gray-600 text-sm">Payment Mode: </span>
-              <span className="text-gray-900 text-sm font-medium">
-                {orderData.paymentMode}
+      <div className="px-4 sm:px-6 md:px-8 py-6 border-t border-gray-200 bg-gray-50">
+        <h2 className="text-lg font-semibold text-gray-900 mb-4">
+          Bill Summary
+        </h2>
+
+        <div className="flex flex-col sm:flex-row sm:justify-between gap-4 sm:gap-8 mb-6">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
+            <div className="flex gap-2">
+              <span className="text-sm text-gray-600">Payment Mode :</span>
+              <span className="text-sm text-gray-900 font-medium">
+                {order.paymentMethod}
               </span>
             </div>
-            <div>
-              <span className="text-gray-600 text-sm">Transaction ID: </span>
-              <span className="text-gray-900 text-sm font-medium">
+            {/* <div className="flex gap-2">
+              <span className="text-sm text-gray-600">Transaction ID :</span>
+              <span className="text-sm text-gray-900 font-medium">
                 {orderData.transactionId}
               </span>
-            </div>
+            </div> */}
           </div>
 
-          <div className="space-y-2 sm:min-w-[200px]">
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-600">Item Total</span>
-              <span className="text-gray-900 font-medium">
-                : ₹{orderData.itemTotal.toLocaleString()}
+          <div className="space-y-2 sm:text-right">
+            <div className="flex justify-between sm:justify-end gap-4 sm:gap-8">
+              <span className="text-sm text-gray-600">Item Total</span>
+              <span className="text-sm text-gray-600  hidden md:block">:</span>
+              <span className="text-sm text-gray-900 font-medium min-w-20 text-right">
+                ₹{order?.productsTotalAmount?.toFixed(2) ?? 0}
               </span>
             </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-600">Delivery Charge</span>
-              <span className="text-gray-900 font-medium">
-                : ₹{orderData.deliveryCharge}
+            <div className="flex justify-between sm:justify-end gap-4 sm:gap-8">
+              <span className="text-sm text-gray-600">Tax</span>
+              <span className="text-sm text-gray-600 hidden md:block">:</span>
+              <span className="text-sm text-gray-900 font-medium min-w-20 text-right">
+                ₹{order?.taxAmount?.toFixed(2) ?? 0}
               </span>
             </div>
-            <div className="flex justify-between text-base font-bold pt-2 border-t border-gray-300">
-              <span className="text-gray-900">Total Amount</span>
-              <span className="text-gray-900">
-                : ₹{orderData.totalAmount.toLocaleString()}
+            <div className="flex justify-between sm:justify-end gap-4 sm:gap-8">
+              <span className="text-sm text-gray-600">Delivery Charge</span>
+              <span className="text-sm text-gray-600 hidden md:block">:</span>
+              <span className="text-sm text-gray-900 font-medium min-w-20 text-right">
+                ₹{order?.deliveryCharge?.toFixed(2) ?? 0}
+              </span>
+            </div>
+            <div className="flex justify-between sm:justify-end gap-4 sm:gap-8 pt-2 ">
+              <span className="text-base font-semibold text-gray-900">
+                Total Amount
+              </span>
+              <span className="text-base font-semibold text-gray-900 hidden md:block">
+                :
+              </span>
+              <span className="text-base font-semibold text-gray-900 min-w-[80px] text-right">
+                ₹{order?.totalAmount?.toFixed(2) ?? 0}
               </span>
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
     </div>
   )
 }

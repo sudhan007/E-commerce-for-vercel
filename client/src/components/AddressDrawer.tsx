@@ -587,7 +587,10 @@ export default function AddressDrawer({
             <input
               type="text"
               value={form.pincode}
-              onChange={(e) => handleChange('pincode', e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value.replace(/[^0-9]/g, '').slice(0, 6)
+                handleChange('pincode', value)
+              }}
               className="w-full px-3 py-2 border rounded-sm focus:outline-none focus:ring-0 placeholder:text-gray-400 placeholder:text-sm"
               placeholder="Pincode"
             />
@@ -622,7 +625,12 @@ export default function AddressDrawer({
               <input
                 type="tel"
                 value={form.receiverMobile}
-                onChange={(e) => handleChange('receiverMobile', e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value
+                    .replace(/[^0-9]/g, '')
+                    .slice(0, 10)
+                  handleChange('receiverMobile', value)
+                }}
                 className={`w-full px-3 py-2 border rounded-sm focus:outline-none focus:ring-0 placeholder:text-gray-400 placeholder:text-sm ${
                   errors.receiverMobile || errors.receiverMobileFormat
                     ? 'border-red-500'
